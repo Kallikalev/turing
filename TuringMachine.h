@@ -7,18 +7,18 @@
 
 #include <vector>
 
-class TuringMachine {
-    struct Transition {
-        int nextState;
-        bool direction;
-        bool write;
-    };
+struct Transition {
+    int nextState;
+    bool direction;
+    bool write;
+};
 
-    bool halted;
-    std::vector<Transition> transitions;
-    int state;
-    int position;
-    std::vector<bool> tape;
+class TuringMachine {
+public:
+    std::vector<std::pair<Transition, Transition>> transitions;
+    int state = 0;
+    int position = 0;
+    std::vector<bool> tape = {false};
 
     bool simulate();
 };
