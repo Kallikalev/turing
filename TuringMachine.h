@@ -17,8 +17,7 @@ class TuringMachine {
     bool halted;
     std::vector<Transition> transitions;
     int curState;
-    std::vector<bool> tapeRight;
-    std::vector<bool> tapeLeft;
+    std::vector<bool> tape;
 
     bool simulate();
 };
