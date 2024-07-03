@@ -3,4 +3,4 @@ project(turing)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(turing main.cpp TuringMachine.h TuringMachine.cpp)
+add_executable(turing main.cpp TuringMachine.h TuringMachine.cpp MachineMaker.h MachineMaker.cpp)
