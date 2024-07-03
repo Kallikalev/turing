@@ -18,6 +18,7 @@ public:
     std::vector<std::pair<Transition, Transition>> transitions;
     int state = 0;
     int position = 0;
+    int startShift = 0;
     std::vector<bool> tape = {false};
 
     bool simulate();

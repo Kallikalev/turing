@@ -11,14 +11,16 @@ bool TuringMachine::simulate() {
     tape[position] = t.write;
     state = t.nextState;
     if (t.direction) { // right
-        if (position == tape.size() - 1) {
+        if (position == tape.size() - 1) { // expand the tape when we reach the edge
             tape.push_back(false);
         }
         position++;
     } else { // left
-        position--;
-        if (position < 0) { // don't move when we're at the left edge of the tape
-            position = 0;
+        if (position == 0) { // expand the tape when we reach the edge
+            tape.insert(tape.begin(),false);
+            startShift++; // keep track of where our starting position is
+        } else {
+            position--;
         }
     }
     return state == -1;
