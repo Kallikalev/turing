@@ -7,10 +7,11 @@ bool TuringMachine::simulate() {
     if (state == -1) {
         return true;
     }
-    Transition t = tape[position] ? transitions[state].second : transitions[state].first;
+
+    Transition t = transitions[state * 2 + tape[position]];
     tape[position] = t.write;
     state = t.nextState;
-    if (t.direction) { // right
+    if (t.direction == 1) { // right
         if (position == tape.size() - 1) { // expand the tape when we reach the edge
             tape.push_back(false);
         }

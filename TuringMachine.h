@@ -9,13 +9,13 @@
 
 struct Transition {
     int nextState;
-    bool direction;
-    bool write;
+    int direction;
+    int write;
 };
 
 class TuringMachine {
 public:
-    std::vector<std::pair<Transition, Transition>> transitions;
+    std::vector<Transition> transitions;
     int state = 0;
     int position = 0;
     int startShift = 0;
