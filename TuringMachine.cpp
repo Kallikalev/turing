@@ -24,6 +24,7 @@ bool TuringMachine::simulate() {
             position--;
         }
     }
+    iterations++;
     return state == -1;
 }
 

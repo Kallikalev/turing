@@ -9,8 +9,8 @@
 
 struct Transition {
     int nextState;
-    int direction;
     int write;
+    int direction;
 };
 
 class TuringMachine {
@@ -19,6 +19,7 @@ public:
     int state = 0;
     int position = 0;
     int startShift = 0;
+    int iterations = 0;
     std::vector<bool> tape = {false};
 
     bool simulate();
