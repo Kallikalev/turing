@@ -9,12 +9,17 @@ int main() {
     std::vector<TuringMachine> allMachines;
     MachineMaker::makeAllMachines(allMachines, states);
 
+    std::vector<bool> tapeRight(Beaver::busyBeaver(states) + 1);
+    std::vector<bool> tapeLeft(Beaver::busyBeaver(states) + 1);
+
     for (int i = 0; i < allMachines.size(); i++) {
+        std::fill(tapeRight.begin(),tapeRight.end(),false);
+        std::fill(tapeLeft.begin(),tapeLeft.end(),false);
         TuringMachine& machine = allMachines[i];
         while (machine.state != machine.numStates && machine.iterations <= Beaver::busyBeaver(states)) {
-            machine.simulate();
+            machine.simulate(tapeRight,tapeLeft);
         }
-        if (i % 100000 == 0) {
+        if (i % 1000000 == 0) {
             std::cout << "Simulated machine " + std::to_string(i)
             <<"/" + std::to_string(allMachines.size()) << std::endl;
         }

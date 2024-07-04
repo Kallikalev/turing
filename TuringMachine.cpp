@@ -2,14 +2,15 @@
 // Created by Kalev Martinson on 7/2/24.
 //
 #include "TuringMachine.h"
-#include "Beaver.h"
 
-bool TuringMachine::simulate() {
+#define TRANSITION_BITS 5
+
+bool TuringMachine::simulate(std::vector<bool>& tapeRight, std::vector<bool>& tapeLeft) {
     if (state == numStates) {
         return true;
     }
     int tapeData = position >= 0 ? tapeRight[position] : tapeLeft[-position - 1];
-    int transition = transitions[state * 2 + tapeData];
+    int transition = (transitions >> ((state * 2 + tapeData) * TRANSITION_BITS)) & ((1 << TRANSITION_BITS) - 1);
     if (position >= 0) {
         tapeRight[position] = (transition & 0b10) >> 1;
         if ((transition & 0b1) == 1) { // right
@@ -42,21 +43,18 @@ bool TuringMachine::simulate() {
 // rather than the common convention of the smallest on the right
 long TuringMachine::tapeToNumber() {
     long num = 0;
-    for (int i = 0; i < tapeRight.size(); i++) {
-        num += (long)tapeRight[i] << i * 2;
-    }
-    for (int i = 0; i < tapeLeft.size(); i++) {
-        int placesLeft = i + 1;
-        num += (long)tapeLeft[i] << (placesLeft * 2 - 1);
-    }
+//    for (int i = 0; i < tapeRight.size(); i++) {
+//        num += (long)tapeRight[i] << i * 2;
+//    }
+//    for (int i = 0; i < tapeLeft.size(); i++) {
+//        int placesLeft = i + 1;
+//        num += (long)tapeLeft[i] << (placesLeft * 2 - 1);
+//    }
     return num;
 }
 
 TuringMachine::TuringMachine(int numStates) {
     this->numStates = numStates;
-    transitions.resize(numStates * 2);
-    tapeRight.resize(Beaver::busyBeaver(numStates) + 1);
-    tapeLeft.resize(Beaver::busyBeaver(numStates));
 }
 
 

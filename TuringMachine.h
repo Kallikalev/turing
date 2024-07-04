@@ -10,15 +10,13 @@
 
 class TuringMachine {
 public:
-    std::vector<int> transitions; // bitmap, next state | write | direction
+    int transitions = 0; // bitmap, next state | write | direction
     int state = 0;
     int position = 0;
     int iterations = 0;
-    std::vector<bool> tapeRight;
-    std::vector<bool> tapeLeft;
     int numStates;
 
-    bool simulate();
+    bool simulate(std::vector<bool>& tapeRight, std::vector<bool>& tapeLeft);
     long tapeToNumber();
 
     explicit TuringMachine(int numStates);
