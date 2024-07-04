@@ -7,15 +7,9 @@
 
 #include <vector>
 
-struct Transition {
-    int nextState;
-    int write;
-    int direction;
-};
-
 class TuringMachine {
 public:
-    std::vector<Transition> transitions;
+    std::vector<int> transitions; // bitmap, next state | write | direction
     int state = 0;
     int position = 0;
     int startShift = 0;

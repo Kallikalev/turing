@@ -8,10 +8,10 @@ bool TuringMachine::simulate() {
         return true;
     }
 
-    Transition t = transitions[state * 2 + tape[position]];
-    tape[position] = t.write;
-    state = t.nextState;
-    if (t.direction == 1) { // right
+    int transition = transitions[state * 2 + tape[position]];
+    tape[position] = (transition & 0b10) >> 1;
+    state = transition >> 2;
+    if ((transition & 0b1) == 1) { // right
         if (position == tape.size() - 1) { // expand the tape when we reach the edge
             tape.push_back(false);
         }

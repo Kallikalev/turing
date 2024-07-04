@@ -5,11 +5,11 @@
 #include "MachineMaker.h"
 #include <iostream>
 
-Transition MachineMaker::getTransition(int n, int states) {
+int MachineMaker::getTransition(int n, int states) {
     int write = n % 2;
     int direction = (n / 2) % 2;
     int next = n / 4 - 1;
-    return Transition{next,write, direction};
+    return (next << 2) + (write << 1) + direction;
 }
 
 std::vector<TuringMachine> MachineMaker::makeAllMachines(int n) {
