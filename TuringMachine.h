@@ -23,6 +23,7 @@ public:
     std::vector<bool> tape = {false};
 
     bool simulate();
+    int tapeToNumber();
 };
 
 #endif //TURING_TURINGMACHINE_H
