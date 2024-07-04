@@ -1,8 +1,8 @@
 #include <iostream>
+#include <set>
 #include "TuringMachine.h"
 #include "MachineMaker.h"
 #include "Beaver.h"
-
 
 int main() {
     int states = 3;
@@ -23,14 +23,20 @@ int main() {
         haltTimes.push_back(0);
     }
     int numHalted = 0;
+    std::set<long> outputs;
     for (auto & machine : allMachines) {
         numHalted += machine.state == -1;
         haltTimes[machine.iterations - 1]++;
+        outputs.insert(machine.tapeToNumber());
     }
     std::cout << "Number that halt: " + std::to_string(numHalted) << std::endl;
     for (int i = 0; i < haltTimes.size(); i++) {
         std::cout << "Number that halt after " << std::to_string(i + 1) << " iterations: "
         << std::to_string(haltTimes[i]) << std::endl;
+    }
+    std::cout << "Produced " + std::to_string(outputs.size()) + " unique outputs" << std::endl;
+    for (long n : outputs) {
+        std::cout << std::to_string(n) << std::endl;
     }
     return 0;
 }
