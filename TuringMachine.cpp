@@ -2,9 +2,10 @@
 // Created by Kalev Martinson on 7/2/24.
 //
 #include "TuringMachine.h"
+#include "Beaver.h"
 
 bool TuringMachine::simulate() {
-    if (state == -1) {
+    if (state == numStates) {
         return true;
     }
     int tapeData = position >= 0 ? tapeRight[position] : tapeLeft[-position - 1];
@@ -32,7 +33,7 @@ bool TuringMachine::simulate() {
     }
     state = transition >> 2;
     iterations++;
-    return state == -1;
+    return state == numStates;
 }
 
 // We interleave the tape, beginning with the start position, then one before it,
@@ -50,4 +51,13 @@ long TuringMachine::tapeToNumber() {
     }
     return num;
 }
+
+TuringMachine::TuringMachine(int numStates) {
+    this->numStates = numStates;
+    transitions.resize(numStates * 2);
+    tapeRight.resize(Beaver::busyBeaver(numStates) + 1);
+    tapeLeft.resize(Beaver::busyBeaver(numStates));
+}
+
+
 

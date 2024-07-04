@@ -6,11 +6,12 @@
 
 int main() {
     int states = 3;
-    std::vector<TuringMachine> allMachines = MachineMaker::makeAllMachines(states);
+    std::vector<TuringMachine> allMachines;
+    MachineMaker::makeAllMachines(allMachines, states);
 
     for (int i = 0; i < allMachines.size(); i++) {
         TuringMachine& machine = allMachines[i];
-        while (machine.state != -1 && machine.iterations <= Beaver::busyBeaver(states)) {
+        while (machine.state != machine.numStates && machine.iterations <= Beaver::busyBeaver(states)) {
             machine.simulate();
         }
         if (i % 100000 == 0) {
@@ -25,7 +26,7 @@ int main() {
     int numHalted = 0;
     std::set<long> outputs;
     for (auto & machine : allMachines) {
-        numHalted += machine.state == -1;
+        numHalted += machine.state == machine.numStates;
         haltTimes[machine.iterations - 1]++;
         outputs.insert(machine.tapeToNumber());
     }

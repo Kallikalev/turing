@@ -12,7 +12,7 @@
 
 class MachineMaker {
 public:
-    static std::vector<TuringMachine> makeAllMachines(int n);
+    static void makeAllMachines(std::vector<TuringMachine>& machines, int n);
 private:
     static int getTransition(int n, int states);
 };
