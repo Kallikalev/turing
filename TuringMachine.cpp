@@ -7,23 +7,30 @@ bool TuringMachine::simulate() {
     if (state == -1) {
         return true;
     }
-
-    int transition = transitions[state * 2 + tape[position]];
-    tape[position] = (transition & 0b10) >> 1;
-    state = transition >> 2;
-    if ((transition & 0b1) == 1) { // right
-        if (position == tape.size() - 1) { // expand the tape when we reach the edge
-            tape.push_back(false);
+    int tapeData = position >= 0 ? tapeRight[position] : tapeLeft[-position - 1];
+    int transition = transitions[state * 2 + tapeData];
+    if (position >= 0) {
+        tapeRight[position] = (transition & 0b10) >> 1;
+        if ((transition & 0b1) == 1) { // right
+            if (position == tapeRight.size() - 1) { // expand the tape when we reach the edge
+                tapeRight.push_back(false);
+            }
+            position++;
+        } else { // left
+            position--;
         }
-        position++;
-    } else { // left
-        if (position == 0) { // expand the tape when we reach the edge
-            tape.insert(tape.begin(),false);
-            startShift++; // keep track of where our starting position is
-        } else {
+    } else {
+        tapeLeft[-position - 1] = (transition & 0b10) >> 1;
+        if ((transition & 0b1) == 1) { // right
+            position++;
+        } else { // left
+            if ((-position - 1) == tapeLeft.size() - 1) { // expand the tape when we reach the edge
+                tapeLeft.push_back(false);
+            }
             position--;
         }
     }
+    state = transition >> 2;
     iterations++;
     return state == -1;
 }
@@ -34,14 +41,12 @@ bool TuringMachine::simulate() {
 // rather than the common convention of the smallest on the right
 long TuringMachine::tapeToNumber() {
     long num = 0;
-    for (int i = 0; i < tape.size(); i++) {
-        if (i < startShift) {
-            int placesLeft = startShift - i;
-            num += (long)tape[i] << (placesLeft * 2 - 1);
-        } else {
-            int placesRight = i - startShift;
-            num += (long)tape[i] << placesRight * 2;
-        }
+    for (int i = 0; i < tapeRight.size(); i++) {
+        num += (long)tapeRight[i] << i * 2;
+    }
+    for (int i = 0; i < tapeLeft.size(); i++) {
+        int placesLeft = i + 1;
+        num += (long)tapeLeft[i] << (placesLeft * 2 - 1);
     }
     return num;
 }

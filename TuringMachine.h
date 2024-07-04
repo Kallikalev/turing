@@ -14,7 +14,8 @@ public:
     int position = 0;
     int startShift = 0;
     int iterations = 0;
-    std::vector<bool> tape = {false};
+    std::vector<bool> tapeRight = {false};
+    std::vector<bool> tapeLeft = {false};
 
     bool simulate();
     long tapeToNumber();
